@@ -1,17 +1,41 @@
-<h1>HERE MUST BE SLIDER !</h1>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
 
 
-<div class="b-slider">
+<h1>HERE MY SLIDER !</h1>
+
+<div class="b-slider" data-slider>
     <div class="b-slider__layout">
-        <div class="b-slider__preview">
-            <div class="b-slider__preview-in"></div>
+        <div class="b-slider__slides">
+            <div class="b-slider__slide" data-slide="1">
+                <img class="b-slider__slide-img" src="images/kot1.png" alt="">
+            </div>
+
+            <div class="b-slider__slide" data-slide="2">
+                <img class="b-slider__slide-img" src="images/kot2.jpg" alt="">
+            </div>
+
+            <div class="b-slider__slide b-slider__slide--active">
+                <img class="b-slider__slide-img" src="images/kot3.jpg" alt="">
+            </div>
         </div>
-        <div class="b-slider__arrows">
-            <div class="b-slider__arrow-left"></div>
-            <div class="b-slider__arrow-right"></div>
+        <div class="b-slider__arrows" data-slide="3">
+            <a class="b-slider__arrow-left" onclick="console.log(pointer)" data-arrow-left>^</a>
+            <a class="b-slider__arrow-right" onclick="console.log(slider)" data-arrow-right>^</a>
         </div>
-        <div class="b-slider__crops">
+        <div class="b-slider__crops" data-pointer>
             <ul class="b-slider__crop-list">
+                <li class="b-slider__crop-item"></li>
+                <li class="b-slider__crop-item"></li>
                 <li class="b-slider__crop-item"></li>
             </ul>
         </div>
@@ -21,3 +45,6 @@
 
 
 <script src="index.js"></script>
+</body>
+</html>
+
