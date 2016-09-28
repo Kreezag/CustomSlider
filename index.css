@@ -6,6 +6,7 @@
 
 body {
     width: 1024px;
+    margin: 0 auto;
 }
 
 h1 {
@@ -16,7 +17,7 @@ h1 {
 .b-slider {
     width: 800px;
     margin: 50px auto;
-    background-color: #ffffdf;
+    background-color: #e5e5e5;
     position: relative;
 }
 
@@ -83,22 +84,83 @@ h1 {
     vertical-align: middle;
     line-height: 50px;
     margin-top: 50%;
-    background-color: #b1b199;
+    background-color: rgba(30, 136, 229, 0.8);
     border-radius: 100%;
     top: -100px;
     color: #fff;
+    box-shadow: 0 1px 1px #111;
+    border: 1px solid #1E88E5;
+    transition: 0.2s;
 }
 
 .b-slider__arrow-left {
-    right: 0;
-    transform: rotate(90deg);
-    box-shadow: 1px 0 3px #000;
+    left: 0;
 }
 
 .b-slider__arrow-right {
-    left: 0;
-    transform: rotate(-90deg);
-    box-shadow: -1px 0 3px #000;
+    right: 0;
+}
+
+.b-slider__arrow-left:before,
+.b-slider__arrow-left:after,
+.b-slider__arrow-right:before,
+.b-slider__arrow-right:after {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 4px;
+    background-color: #fff;
+    position: absolute;
+    top: 50%;
+}
+
+.b-slider__arrow-left:before {
+    transform: rotate(-45deg);
+    margin-top: -7px;
+    right: 16px;
+}
+
+.b-slider__arrow-left:after {
+    transform: rotate(45deg);
+    margin-top: 5px;
+    right: 16px;
+}
+
+.b-slider__arrow-right:before {
+    transform: rotate(45deg);
+    margin-top: -7px;
+    right: 16px;
+}
+
+.b-slider__arrow-right:after {
+    transform: rotate(-45deg);
+    margin-top: 5px;
+    right: 16px;
+}
+
+.b-slider__arrow-left:hover,
+.b-slider__arrow-right:hover {
+    box-shadow: 0 1px #0D47A1 inset;
+}
+
+.b-slider__arrow-left:hover:before {
+    transform: rotate(495deg);
+    transition: cubic-bezier(0.01, 0.74, 0.4, 0.96) 0.3s;
+}
+
+.b-slider__arrow-left:hover:after {
+    transform: rotate(-495deg);
+    transition: cubic-bezier(0.01, 0.74, 0.4, 0.96) 0.3s;
+}
+
+.b-slider__arrow-right:hover:before {
+    transform: rotate(-495deg);
+    transition: cubic-bezier(0.01, 0.74, 0.4, 0.96) 0.3s;
+}
+
+.b-slider__arrow-right:hover:after {
+    transform: rotate(495deg);
+    transition: cubic-bezier(0.01, 0.74, 0.4, 0.96) 0.3s;
 }
 
 .b-slider__crops {
@@ -119,7 +181,14 @@ h1 {
     height: 10px;
     border-radius: 100%;
     display: inline-block;
-    background-color: #b1b199;
-    margin: 0 2px;
-    box-shadow: 0 1px 2px #000;
+    background-color: rgba(30, 136, 229, 0.8);
+    margin: 0 4px;
+    box-shadow: 0 1px 1px #111;
+    cursor: pointer;
+    border: 1px solid #1E88E5;
+    transition: 0.2s;
+}
+
+.b-slider__crop-item:hover {
+    box-shadow: 0 1px #0D47A1 inset;
 }
