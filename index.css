@@ -75,22 +75,23 @@ h1 {
 
 .b-slider__arrow-left,
 .b-slider__arrow-right {
-    cursor: pointer;
-    width: 50px;
-    height: 50px;
-    display: inline-block;
-    position: absolute;
-    text-align: center;
-    vertical-align: middle;
-    line-height: 50px;
-    margin-top: 50%;
     background-color: rgba(30, 136, 229, 0.8);
-    border-radius: 100%;
-    top: -100px;
-    color: #fff;
-    box-shadow: 0 1px 1px #111;
     border: 1px solid #1E88E5;
+    box-sizing:border-box;
+    box-shadow: 0 1px 1px #111;
+    border-radius: 100%;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    height: 50px;
+    line-height: 50px;
+    position: absolute;
+    margin-top: 50%;
+    text-align: center;
+    top: -100px;
     transition: 0.2s;
+    vertical-align: middle;
+    width: 50px;
 }
 
 .b-slider__arrow-left {
@@ -105,19 +106,19 @@ h1 {
 .b-slider__arrow-left:after,
 .b-slider__arrow-right:before,
 .b-slider__arrow-right:after {
+    background-color: #fff;
     content: '';
     display: inline-block;
-    width: 20px;
     height: 4px;
-    background-color: #fff;
     position: absolute;
     top: 50%;
+    width: 20px;
 }
 
 .b-slider__arrow-left:before {
-    transform: rotate(-45deg);
     margin-top: -7px;
     right: 16px;
+    transform: rotate(-45deg);
 }
 
 .b-slider__arrow-left:after {
@@ -164,29 +165,28 @@ h1 {
 }
 
 .b-slider__crops {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
 }
 
 .b-slider__crop-list {
-    height: 30px;
+    position: absolute;
+    bottom: 15px;
+    left: 0;
+    right: 0;
     text-align: center;
 }
 
 .b-slider__crop-item {
-    list-style: none;
-    width: 10px;
-    height: 10px;
-    border-radius: 100%;
-    display: inline-block;
     background-color: rgba(30, 136, 229, 0.8);
-    margin: 0 4px;
-    box-shadow: 0 1px 1px #111;
-    cursor: pointer;
     border: 1px solid #1E88E5;
+    box-shadow: 0 1px 1px #111;
+    border-radius: 100%;
+    cursor: pointer;
+    display: inline-block;
+    list-style: none;
+    height: 10px;
+    margin: 0 4px;
     transition: 0.2s;
+    width: 10px;
 }
 
 .b-slider__crop-item:hover {
