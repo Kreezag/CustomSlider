@@ -7,21 +7,39 @@ const arrowLeft = document.querySelectorAll('[data-arrow-left]')[0];
 const arrowRight = document.querySelectorAll('[data-arrow-right]')[0];
 
 
-const slidesCount = document.querySelectorAll('.b-slider__slide').length;
+const slide = document.querySelectorAll('.b-slider__slide');
+const slidesCount = slide.length;
 
-// console.log(slider);
-// console.log(pointer);
-// console.log(arrowLeft);
-// console.log(arrowRight);
-// console.log(activeSlide);
 
-function ShowPointer () {
-    for (var _i = 0; _i < slidesCount; _i++) {
-        const _elem = document.createElement('li');
 
-        _elem.className = 'b-slider__crop-item';
-        crops.appendChild(_elem);
+function AddDataCrops (i) {
+    const _elem = document.createElement('li');
+
+    _elem.className = 'b-slider__crop-item';
+    _elem.setAttribute('data-crop', i );
+    crops.appendChild(_elem);
+
+    if (i === 0) {
+        _elem.setAttribute('data-crop-active', '');
     }
 }
 
-ShowPointer();
+
+
+
+function AddDataSlides (i) {
+    slide[i].setAttribute('data-slide', i );
+}
+
+
+
+function SET_DATA_ATTR () {
+    for (var _i = 0; _i < slidesCount; _i++) {
+        AddDataCrops(_i);
+        AddDataSlides(_i);
+    }
+}
+
+
+
+SET_DATA_ATTR();
