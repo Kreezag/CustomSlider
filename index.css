@@ -57,7 +57,7 @@ h1 {
     margin: 0;
 }
 
-.b-slider__slide.b-slider__slide--active {
+.b-slider__slide[data-slide-active] {
     visibility: visible;
 }
 
@@ -130,13 +130,13 @@ h1 {
 .b-slider__arrow-right:before {
     transform: rotate(45deg);
     margin-top: -7px;
-    right: 16px;
+    left: 16px;
 }
 
 .b-slider__arrow-right:after {
     transform: rotate(-45deg);
     margin-top: 5px;
-    right: 16px;
+    left: 16px;
 }
 
 .b-slider__arrow-left:hover,
@@ -191,4 +191,8 @@ h1 {
 
 .b-slider__crop-item:hover {
     box-shadow: 0 1px #0D47A1 inset;
+}
+
+.b-slider__crop-item[data-crop-active] {
+    opacity: 0.4;
 }
