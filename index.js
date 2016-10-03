@@ -1,14 +1,12 @@
-const slider = document.querySelectorAll('[data-slider]');
-const crops = document.querySelectorAll('[data-crop-list]')[0];
-const activeSlide = document.querySelectorAll('[data-slide-active]')[0];
+const SLIDER = document.querySelectorAll('[data-slider]');
+const SLIDE = document.querySelectorAll('.b-slider__slide');
+const COUNT_SLIDES = SLIDE.length;
 
+const ARROW_LEFT = document.querySelectorAll('[data-arrow-left]')[0];
+const ARROW_RIGHT = document.querySelectorAll('[data-arrow-right]')[0];
 
-const arrowLeft = document.querySelectorAll('[data-arrow-left]')[0];
-const arrowRight = document.querySelectorAll('[data-arrow-right]')[0];
+const CROPS = document.querySelectorAll('[data-crop-list]')[0];
 
-
-const slide = document.querySelectorAll('.b-slider__slide');
-const slidesCount = slide.length;
 
 
 
@@ -17,7 +15,7 @@ function AddDataCrops (i) {
 
     _elem.className = 'b-slider__crop-item';
     _elem.setAttribute('data-crop', i );
-    crops.appendChild(_elem);
+    CROPS.appendChild(_elem);
 
     if (i === 0) {
         _elem.setAttribute('data-crop-active', '');
@@ -28,13 +26,13 @@ function AddDataCrops (i) {
 
 
 function AddDataSlides (i) {
-    slide[i].setAttribute('data-slide', i );
+    SLIDE[i].setAttribute('data-slide', i );
 }
 
 
 
 function SET_DATA_ATTR () {
-    for (var _i = 0; _i < slidesCount; _i++) {
+    for (var _i = 0; _i < COUNT_SLIDES; _i++) {
         AddDataCrops(_i);
         AddDataSlides(_i);
     }
@@ -43,3 +41,33 @@ function SET_DATA_ATTR () {
 
 
 SET_DATA_ATTR();
+
+function ChangeSlideRight () {
+    var activeSlide = document.querySelectorAll('[data-slide-active]')[0];
+    var position = activeSlide.getAttribute('data-slide');
+    var nextSlide = SLIDE[(+position + 1)];
+
+    if (position == (COUNT_SLIDES - 1)) {
+        nextSlide = SLIDE[0];
+    }
+
+    activeSlide.removeAttribute('data-slide-active');
+    nextSlide.setAttribute('data-slide-active', '');
+}
+
+function ChangeSlideLeft () {
+    var activeSlide = document.querySelectorAll('[data-slide-active]')[0];
+    var position = activeSlide.getAttribute('data-slide');
+    var nextSlide = SLIDE[(+position - 1)];
+
+    if (position == 0) {
+        nextSlide = SLIDE[(COUNT_SLIDES - 1)];
+    }
+
+    activeSlide.removeAttribute('data-slide-active');
+    nextSlide.setAttribute('data-slide-active', '');
+}
+
+
+ARROW_LEFT.onclick = () => ChangeSlideLeft();
+ARROW_RIGHT.onclick = () => ChangeSlideRight();
