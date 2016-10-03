@@ -71,3 +71,5 @@ function ChangeSlideLeft () {
 
 ARROW_LEFT.onclick = () => ChangeSlideLeft();
 ARROW_RIGHT.onclick = () => ChangeSlideRight();
+
+setInterval(ARROW_RIGHT.onclick, 4000);
