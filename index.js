@@ -1,6 +1,5 @@
-const SLIDER = document.querySelectorAll('[data-slider]');
 const SLIDE = document.querySelectorAll('.b-slider__slide');
-const COUNT_SLIDES = SLIDE.length;
+const COUNT = SLIDE.length;
 
 const ARROW_LEFT = document.querySelectorAll('[data-arrow-left]')[0];
 const ARROW_RIGHT = document.querySelectorAll('[data-arrow-right]')[0];
@@ -22,17 +21,13 @@ function AddDataCrops (i) {
     }
 }
 
-
-
-
 function AddDataSlides (i) {
     SLIDE[i].setAttribute('data-slide', i );
 }
 
 
-
 function SET_DATA_ATTR () {
-    for (var _i = 0; _i < COUNT_SLIDES; _i++) {
+    for (var _i = 0; _i < COUNT; _i++) {
         AddDataCrops(_i);
         AddDataSlides(_i);
     }
@@ -42,34 +37,34 @@ function SET_DATA_ATTR () {
 
 SET_DATA_ATTR();
 
-function ChangeSlideRight () {
-    var activeSlide = document.querySelectorAll('[data-slide-active]')[0];
-    var position = activeSlide.getAttribute('data-slide');
-    var nextSlide = SLIDE[(+position + 1)];
+function ChangeSlide (boolean) {
 
-    if (position == (COUNT_SLIDES - 1)) {
+    const activeSlide = document.querySelectorAll('[data-slide-active]')[0];
+    const activeCrop = document.querySelectorAll('[data-crop-active]')[0];
+    const _crop = document.querySelectorAll('[data-crop]');
+    const position = activeSlide.getAttribute('data-slide');
+
+    var nextSlide = SLIDE[(+position + (boolean ? 1 : -1) )];
+    var nextCrop = _crop[( +position + (boolean ? 1 : -1) )];
+
+    if (boolean && position == (COUNT - 1)) {
         nextSlide = SLIDE[0];
+        nextCrop = _crop[0];
     }
 
-    activeSlide.removeAttribute('data-slide-active');
-    nextSlide.setAttribute('data-slide-active', '');
-}
-
-function ChangeSlideLeft () {
-    var activeSlide = document.querySelectorAll('[data-slide-active]')[0];
-    var position = activeSlide.getAttribute('data-slide');
-    var nextSlide = SLIDE[(+position - 1)];
-
-    if (position == 0) {
-        nextSlide = SLIDE[(COUNT_SLIDES - 1)];
+    if (!boolean && position == 0) {
+        nextSlide = SLIDE[(COUNT - 1)];
+        nextCrop = _crop[(COUNT - 1)];
     }
-
+    
     activeSlide.removeAttribute('data-slide-active');
+    activeCrop.removeAttribute('data-crop-active');
     nextSlide.setAttribute('data-slide-active', '');
+    nextCrop.setAttribute('data-crop-active', '');
 }
 
 
-ARROW_LEFT.onclick = () => ChangeSlideLeft();
-ARROW_RIGHT.onclick = () => ChangeSlideRight();
+ARROW_LEFT.onclick = () => ChangeSlide(false);
+ARROW_RIGHT.onclick = () => ChangeSlide(true);
 
 setInterval(ARROW_RIGHT.onclick, 4000);
