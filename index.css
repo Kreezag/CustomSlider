@@ -57,7 +57,7 @@ h1 {
     margin: 0;
 }
 
-.b-slider__slide[data-slide-active] {
+.b-slider__slide[data-active] {
     visibility: visible;
 }
 
@@ -193,6 +193,6 @@ h1 {
     box-shadow: 0 1px #0D47A1 inset;
 }
 
-.b-slider__crop-item[data-crop-active] {
+.b-slider__crop-item[data-active] {
     opacity: 0.4;
 }

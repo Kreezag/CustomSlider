@@ -1,3 +1,4 @@
+const SLIDER = document.querySelectorAll('[data-slider]')[0];
 const SLIDE = document.querySelectorAll('.b-slider__slide');
 const COUNT = SLIDE.length;
 
@@ -5,8 +6,6 @@ const ARROW_LEFT = document.querySelectorAll('[data-arrow-left]')[0];
 const ARROW_RIGHT = document.querySelectorAll('[data-arrow-right]')[0];
 
 const CROPS = document.querySelectorAll('[data-crop-list]')[0];
-
-
 
 
 function AddDataCrops (i) {
@@ -17,7 +16,7 @@ function AddDataCrops (i) {
     CROPS.appendChild(_elem);
 
     if (i === 0) {
-        _elem.setAttribute('data-crop-active', '');
+        _elem.setAttribute('data-active', '');
     }
 }
 
@@ -33,38 +32,48 @@ function SET_DATA_ATTR () {
     }
 }
 
-
-
 SET_DATA_ATTR();
 
-function ChangeSlide (boolean) {
 
-    const activeSlide = document.querySelectorAll('[data-slide-active]')[0];
-    const activeCrop = document.querySelectorAll('[data-crop-active]')[0];
-    const _crop = document.querySelectorAll('[data-crop]');
-    const position = activeSlide.getAttribute('data-slide');
 
-    var nextSlide = SLIDE[(+position + (boolean ? 1 : -1) )];
-    var nextCrop = _crop[( +position + (boolean ? 1 : -1) )];
+
+function setActive(el, position, boolean, activeClass) {
+
+    var nextElem = el[(+position + (boolean ? 1 : -1) )];
 
     if (boolean && position == (COUNT - 1)) {
-        nextSlide = SLIDE[0];
-        nextCrop = _crop[0];
+        nextElem = el[0];
     }
 
     if (!boolean && position == 0) {
-        nextSlide = SLIDE[(COUNT - 1)];
-        nextCrop = _crop[(COUNT - 1)];
+        nextElem = el[(COUNT - 1)];
     }
-    
-    activeSlide.removeAttribute('data-slide-active');
-    activeCrop.removeAttribute('data-crop-active');
-    nextSlide.setAttribute('data-slide-active', '');
-    nextCrop.setAttribute('data-crop-active', '');
+
+    nextElem.setAttribute(activeClass, '');
 }
 
 
-ARROW_LEFT.onclick = () => ChangeSlide(false);
-ARROW_RIGHT.onclick = () => ChangeSlide(true);
+
+
+function ChangeEl (boolean) {
+
+    const activeSlide = SLIDER.querySelectorAll('[data-active]')[0];
+    const activeCrop = CROPS.querySelectorAll('[data-active]')[0];
+    const _crop = CROPS.querySelectorAll('[data-crop]');
+    const position = activeSlide.getAttribute('data-slide');
+
+    setActive(SLIDE, position, boolean, 'data-active');
+    setActive(_crop, position, boolean, 'data-active');
+
+    activeSlide.removeAttribute('data-active');
+    activeCrop.removeAttribute('data-active');
+}
+
+
+
+
+
+ARROW_LEFT.onclick = () => ChangeEl(false);
+ARROW_RIGHT.onclick = () => ChangeEl(true);
 
 setInterval(ARROW_RIGHT.onclick, 4000);
