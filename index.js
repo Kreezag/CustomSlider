@@ -7,11 +7,13 @@ const ARROW_RIGHT = document.querySelectorAll('[data-arrow-right]')[0];
 
 const CROPS = document.querySelectorAll('[data-crop-list]')[0];
 
+const CROP_CLASS = 'b-slider__crop-item';
+
 
 function AddDataCrops (i) {
     const _elem = document.createElement('li');
 
-    _elem.className = 'b-slider__crop-item';
+    _elem.className = CROP_CLASS;
     _elem.setAttribute('data-crop', i );
     CROPS.appendChild(_elem);
 
@@ -54,7 +56,6 @@ function setActive(el, position, boolean, activeClass) {
 
 
 
-
 function ChangeEl (boolean) {
 
     const activeSlide = SLIDER.querySelectorAll('[data-active]')[0];
@@ -70,7 +71,15 @@ function ChangeEl (boolean) {
 }
 
 
+CROPS.onclick = function(e) {
 
+    if (e.target.getAttribute('data-crop')) { //HUCK
+
+        var _dataAttr = e.target.getAttribute('data-crop');
+
+        console.log(_dataAttr);
+    }
+};
 
 
 ARROW_LEFT.onclick = () => ChangeEl(false);
