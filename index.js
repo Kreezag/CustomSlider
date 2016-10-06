@@ -96,7 +96,7 @@ CROPS.onclick = function(e) {
         const activeSlide = SLIDER.querySelectorAll('[data-active]')[0];
         const activeCrop = CROPS.querySelectorAll('[data-active]')[0];
 
-        if (_dataAttr !== activeSlide ) {
+        if (_dataAttr != activeCrop.getAttribute('data-crop')) {
             setActiveWithCrop(SLIDE, _dataAttr, 'data-active');
             setActiveWithCrop(_crop, _dataAttr, 'data-active');
 
