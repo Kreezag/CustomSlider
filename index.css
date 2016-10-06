@@ -195,4 +195,5 @@ h1 {
 
 .b-slider__crop-item[data-active] {
     opacity: 0.4;
+    cursor: auto;
 }
