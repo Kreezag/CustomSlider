@@ -8,6 +8,7 @@ const ARROW_RIGHT = document.querySelectorAll('[data-arrow-right]')[0];
 const CROPS = document.querySelectorAll('[data-crop-list]')[0];
 const CROP_CLASS = 'b-slider__crop-item';
 
+const ATTR_ACTIVE = 'data-active';
 
 
 
@@ -19,7 +20,7 @@ function InitCrops (i) {
     CROPS.appendChild(_elem);
 
     if (i === 0) {
-        _elem.setAttribute('data-active', '');
+        _elem.setAttribute(ATTR_ACTIVE, '');
     }
 }
 
@@ -41,29 +42,32 @@ function SET_DATA_ATTR () {
 SET_DATA_ATTR();
 
 
+function GetElActive (e) {
+    return e.querySelectorAll('[data-active]')[0];
+}
 
 
 
 
-function setActive(el, position, boolean, activeClass) {
 
-    var nextElem = el[(+position + (boolean ? 1 : -1) )];
+
+function SetActive(e, position, boolean, activeClass = ATTR_ACTIVE) {
+    var nextElem = e[(+position + (boolean ? 1 : -1) )];
 
     if (boolean && position == (COUNT - 1)) {
-        nextElem = el[0];
+        nextElem = e[0];
     }
 
     if (!boolean && position == 0) {
-        nextElem = el[(COUNT - 1)];
+        nextElem = e[(COUNT - 1)];
     }
 
     nextElem.setAttribute(activeClass, '');
 }
 
 
-function setActiveWithCrop(el, position, activeClass) {
-
-    var nextElem = el[(+position)];
+function SetActiveWithCrop(e, position, activeClass = ATTR_ACTIVE) {
+    var nextElem = e[(+position)];
 
     nextElem.setAttribute(activeClass, '');
 }
@@ -72,17 +76,20 @@ function setActiveWithCrop(el, position, activeClass) {
 
 function ChangeEl (boolean) {
 
-    const activeSlide = SLIDER.querySelectorAll('[data-active]')[0];
-    const activeCrop = CROPS.querySelectorAll('[data-active]')[0];
+    const activeSlide = GetElActive(SLIDER);
+    const activeCrop = GetElActive(CROPS);
     const _crop = CROPS.querySelectorAll('[data-crop]');
     const position = activeSlide.getAttribute('data-slide');
 
-    setActive(SLIDE, position, boolean, 'data-active');
-    setActive(_crop, position, boolean, 'data-active');
+    SetActive(SLIDE, position, boolean);
+    SetActive(_crop, position, boolean);
 
-    activeSlide.removeAttribute('data-active');
-    activeCrop.removeAttribute('data-active');
+    activeSlide.removeAttribute(ATTR_ACTIVE);
+    activeCrop.removeAttribute(ATTR_ACTIVE);
 }
+
+
+
 
 
 
@@ -93,15 +100,15 @@ CROPS.onclick = function(e) {
         const _dataAttr = e.target.getAttribute('data-crop');
 
         const _crop = CROPS.querySelectorAll('[data-crop]');
-        const activeSlide = SLIDER.querySelectorAll('[data-active]')[0];
-        const activeCrop = CROPS.querySelectorAll('[data-active]')[0];
+        const activeSlide = GetElActive(SLIDER);
+        const activeCrop = GetElActive(CROPS);
 
         if (_dataAttr != activeCrop.getAttribute('data-crop')) {
-            setActiveWithCrop(SLIDE, _dataAttr, 'data-active');
-            setActiveWithCrop(_crop, _dataAttr, 'data-active');
+            SetActiveWithCrop(SLIDE, _dataAttr);
+            SetActiveWithCrop(_crop, _dataAttr);
 
-            activeSlide.removeAttribute('data-active');
-            activeCrop.removeAttribute('data-active');
+            activeSlide.removeAttribute(ATTR_ACTIVE);
+            activeCrop.removeAttribute(ATTR_ACTIVE);
         }
     }
 };
