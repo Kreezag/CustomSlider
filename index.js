@@ -4,57 +4,59 @@ const COUNT = SLIDE.length;
 
 const ARROW_LEFT = document.querySelectorAll('[data-arrow-left]')[0];
 const ARROW_RIGHT = document.querySelectorAll('[data-arrow-right]')[0];
-
 const CROPS = document.querySelectorAll('[data-crop-list]')[0];
-const CROP_CLASS = 'b-slider__crop-item';
 
-const ATTR_ACTIVE = 'data-active';
+const DATA_ACTIVE = 'data-active';
 
 
+//************ Initialize slider ***********//
 
 function InitCrops (i) {
-    const _elem = document.createElement('span');
+    const _el = document.createElement('span');
+    const _cropClass = 'b-slider__crop-item';
 
-    _elem.className = CROP_CLASS;
-    _elem.setAttribute('data-crop', i );
-    CROPS.appendChild(_elem);
+    _el.className = _cropClass;
+    _el.setAttribute('data-crop', i );
+    CROPS.appendChild(_el);
 
-    if (i === 0) {
-        _elem.setAttribute(ATTR_ACTIVE, '');
+    if (!i) {
+        _el.setAttribute(DATA_ACTIVE, '');
     }
 }
+
 
 function InitSlides (i) {
     SLIDE[i].setAttribute('data-slide', i );
 }
 
-function Counter (e) {
+
+function SET_DATA_ATTR () {
     for (var _i = 0; _i < COUNT; _i++) {
-        e(_i);
+        InitCrops(_i);
+        InitSlides(_i);
     }
 }
 
-function SET_DATA_ATTR () {
-    Counter(InitCrops);
-    Counter(InitSlides);
-}
 
 SET_DATA_ATTR();
 
+
+
+//************ Action functions ***********//
 
 function GetActiveEl (e) {
     return e.querySelectorAll('[data-active]')[0];
 }
 
-function SetActiveAttr(e, position, value = 0, activeClass = ATTR_ACTIVE) {
 
-    var nextElem = e[(+position) + (+value)];
+function SetActiveAttr(e, pos, val = 0, activeClass = DATA_ACTIVE) {
+    var nextElem = e[(+pos) + val];
 
-    if (value > 0 && position == (COUNT - 1)) {
+    if (val > 0 && pos == (COUNT - 1)) {
         nextElem = e[0];
     }
 
-    if (value < 0 && position == 0) {
+    if (val < 0 && pos == 0) {
         nextElem = e[(COUNT - 1)];
     }
 
@@ -62,46 +64,32 @@ function SetActiveAttr(e, position, value = 0, activeClass = ATTR_ACTIVE) {
 }
 
 
-
-function ChangeSlide (value = 0, position = 0) {
-
-    const activeSlide = GetActiveEl(SLIDER);
-    const activeCrop = GetActiveEl(CROPS);
+function ChangeSlide (val = 0, pos = 0) {
+    const _curSlide = GetActiveEl(SLIDER);
+    const _curCrop = GetActiveEl(CROPS);
     const _crop = CROPS.querySelectorAll('[data-crop]');
-    const _position = position ? position : activeSlide.getAttribute('data-slide');
+    const _pos = pos ? pos : _curSlide.getAttribute('data-slide');
 
-    if (_position != activeSlide.getAttribute('data-crop')) {
-        SetActiveAttr(SLIDE, _position, value);
-        SetActiveAttr(_crop, _position, value);
-        activeSlide.removeAttribute(ATTR_ACTIVE);
-        activeCrop.removeAttribute(ATTR_ACTIVE);
-    }
+    SetActiveAttr(SLIDE, _pos, val);
+    SetActiveAttr(_crop, _pos, val);
+
+    _curSlide.removeAttribute(DATA_ACTIVE);
+    _curCrop.removeAttribute(DATA_ACTIVE);
 }
 
 
-CROPS.onclick = function(e) {
 
-    if (e.target.getAttribute('data-crop')) { //HUCK
-
-
-        const activeSlide = GetActiveEl(SLIDER);
-        const activeCrop = GetActiveEl(CROPS);
-        const _crop = CROPS.querySelectorAll('[data-crop]');
-        const _position = e.target.getAttribute('data-crop');
-
-        if (_position != activeCrop.getAttribute('data-crop')) {
-            SetActiveAttr(SLIDE, _position);
-            SetActiveAttr(_crop, _position);
-            activeSlide.removeAttribute(ATTR_ACTIVE);
-            activeCrop.removeAttribute(ATTR_ACTIVE);
-        }
-    }
-};
-
-
-
+//************ Response functions ***********//
 
 ARROW_LEFT.onclick = () => ChangeSlide(-1);
 ARROW_RIGHT.onclick = () => ChangeSlide(1);
+
+CROPS.onclick = function(e) {
+    const _curPos = e.target.getAttribute('data-crop');
+
+    if (_curPos && _curPos != GetActiveEl(SLIDER).getAttribute('data-slide')) { //HUCK
+        ChangeSlide(0, _curPos);
+    }
+};
 
 setInterval(ARROW_RIGHT.onclick, 4000);
