@@ -13,7 +13,7 @@ const ATTR_ACTIVE = 'data-active';
 
 
 function InitCrops (i) {
-    const _elem = document.createElement('li');
+    const _elem = document.createElement('span');
 
     _elem.className = CROP_CLASS;
     _elem.setAttribute('data-crop', i );
@@ -42,23 +42,19 @@ function SET_DATA_ATTR () {
 SET_DATA_ATTR();
 
 
-function GetElActive (e) {
+function GetActiveEl (e) {
     return e.querySelectorAll('[data-active]')[0];
 }
 
+function SetActiveAttr(e, position, value = 0, activeClass = ATTR_ACTIVE) {
 
+    var nextElem = e[(+position) + (+value)];
 
-
-
-
-function SetActive(e, position, boolean, activeClass = ATTR_ACTIVE) {
-    var nextElem = e[(+position + (boolean ? 1 : -1) )];
-
-    if (boolean && position == (COUNT - 1)) {
+    if (value > 0 && position == (COUNT - 1)) {
         nextElem = e[0];
     }
 
-    if (!boolean && position == 0) {
+    if (value < 0 && position == 0) {
         nextElem = e[(COUNT - 1)];
     }
 
@@ -66,47 +62,36 @@ function SetActive(e, position, boolean, activeClass = ATTR_ACTIVE) {
 }
 
 
-function SetActiveWithCrop(e, position, activeClass = ATTR_ACTIVE) {
-    var nextElem = e[(+position)];
 
-    nextElem.setAttribute(activeClass, '');
-}
+function ChangeSlide (value = 0, position = 0) {
 
-
-
-function ChangeEl (boolean) {
-
-    const activeSlide = GetElActive(SLIDER);
-    const activeCrop = GetElActive(CROPS);
+    const activeSlide = GetActiveEl(SLIDER);
+    const activeCrop = GetActiveEl(CROPS);
     const _crop = CROPS.querySelectorAll('[data-crop]');
-    const position = activeSlide.getAttribute('data-slide');
+    const _position = position ? position : activeSlide.getAttribute('data-slide');
 
-    SetActive(SLIDE, position, boolean);
-    SetActive(_crop, position, boolean);
-
-    activeSlide.removeAttribute(ATTR_ACTIVE);
-    activeCrop.removeAttribute(ATTR_ACTIVE);
+    if (_position != activeSlide.getAttribute('data-crop')) {
+        SetActiveAttr(SLIDE, _position, value);
+        SetActiveAttr(_crop, _position, value);
+        activeSlide.removeAttribute(ATTR_ACTIVE);
+        activeCrop.removeAttribute(ATTR_ACTIVE);
+    }
 }
-
-
-
-
 
 
 CROPS.onclick = function(e) {
 
     if (e.target.getAttribute('data-crop')) { //HUCK
 
-        const _dataAttr = e.target.getAttribute('data-crop');
 
+        const activeSlide = GetActiveEl(SLIDER);
+        const activeCrop = GetActiveEl(CROPS);
         const _crop = CROPS.querySelectorAll('[data-crop]');
-        const activeSlide = GetElActive(SLIDER);
-        const activeCrop = GetElActive(CROPS);
+        const _position = e.target.getAttribute('data-crop');
 
-        if (_dataAttr != activeCrop.getAttribute('data-crop')) {
-            SetActiveWithCrop(SLIDE, _dataAttr);
-            SetActiveWithCrop(_crop, _dataAttr);
-
+        if (_position != activeCrop.getAttribute('data-crop')) {
+            SetActiveAttr(SLIDE, _position);
+            SetActiveAttr(_crop, _position);
             activeSlide.removeAttribute(ATTR_ACTIVE);
             activeCrop.removeAttribute(ATTR_ACTIVE);
         }
@@ -116,7 +101,7 @@ CROPS.onclick = function(e) {
 
 
 
-ARROW_LEFT.onclick = () => ChangeEl(false);
-ARROW_RIGHT.onclick = () => ChangeEl(true);
+ARROW_LEFT.onclick = () => ChangeSlide(-1);
+ARROW_RIGHT.onclick = () => ChangeSlide(1);
 
 setInterval(ARROW_RIGHT.onclick, 4000);
