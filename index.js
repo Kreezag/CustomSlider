@@ -13,9 +13,8 @@ const DATA_ACTIVE = 'data-active';
 
 function InitCrops (i) {
     const _el = document.createElement('span');
-    const _cropClass = 'b-slider__crop-item';
 
-    _el.className = _cropClass;
+    _el.className = 'b-slider__crop-item';
     _el.setAttribute('data-crop', i );
     CROPS.appendChild(_el);
 
