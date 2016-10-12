@@ -1,10 +1,13 @@
+
+
+
 const SLIDER = document.querySelectorAll('[data-slider]')[0];
 const SLIDE = document.querySelectorAll('.b-slider__slide');
 const COUNT = SLIDE.length;
 
 const ARROW_LEFT = document.querySelectorAll('[data-arrow-left]')[0];
 const ARROW_RIGHT = document.querySelectorAll('[data-arrow-right]')[0];
-const CROPS = document.querySelectorAll('[data-crop-list]')[0];
+const Crops = document.querySelectorAll('[data-crop-list]')[0];
 
 const DATA_ACTIVE = 'data-active';
 
@@ -16,7 +19,7 @@ function InitCrops (i) {
 
     _el.className = 'b-slider__crop-item';
     _el.setAttribute('data-crop', i );
-    CROPS.appendChild(_el);
+    Crops.appendChild(_el);
 
     if (!i) {
         _el.setAttribute(DATA_ACTIVE, '');
@@ -65,8 +68,8 @@ function SetActiveAttr(e, pos, val = 0, activeClass = DATA_ACTIVE) {
 
 function ChangeSlide (val = 0, pos = 0) {
     const _curSlide = GetActiveEl(SLIDER);
-    const _curCrop = GetActiveEl(CROPS);
-    const _crop = CROPS.querySelectorAll('[data-crop]');
+    const _curCrop = GetActiveEl(Crops);
+    const _crop = Crops.querySelectorAll('[data-crop]');
     const _pos = pos ? pos : _curSlide.getAttribute('data-slide');
 
     SetActiveAttr(SLIDE, _pos, val);
@@ -83,7 +86,7 @@ function ChangeSlide (val = 0, pos = 0) {
 ARROW_LEFT.onclick = () => ChangeSlide(-1);
 ARROW_RIGHT.onclick = () => ChangeSlide(1);
 
-CROPS.onclick = function(e) {
+Crops.onclick = function(e) {
     const _curPos = e.target.getAttribute('data-crop');
 
     if (_curPos && _curPos != GetActiveEl(SLIDER).getAttribute('data-slide')) { //HUCK
