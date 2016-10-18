@@ -1,5 +1,6 @@
 
 function RunSlider (id) {
+
     const $slider = id;
 
     const $slide = $slider.querySelectorAll('.b-slider__slide');
@@ -10,6 +11,20 @@ function RunSlider (id) {
     const $crops = $slider.querySelectorAll('[data-crop-list]')[0];
 
     const DATA_ACTIVE = 'data-active';
+
+
+    /*
+    TODO сделать ядро слайдера с API и возможностью кастомизировать
+    (регулировать скорость мотания, добовлять управляющие элементы, имена классов и тд)
+    ряд дефолтных значений
+
+    idElem : id;
+    activeClass : class;
+    controls : [el1, el2, el3] || el;
+    timeChangeSlide : time;
+    visible preview : boolean;
+    */
+
 
 
     //************ Initialize slider ***********//
@@ -25,6 +40,7 @@ function RunSlider (id) {
             _el.setAttribute(DATA_ACTIVE, '');
         }
     }
+
 
 
     function InitSlides (i) {
