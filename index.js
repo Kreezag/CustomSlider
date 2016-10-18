@@ -111,7 +111,13 @@ function RunSlider (id) {
         }
     };
 
-    setInterval($arr.onclick, 4000);
+    setTimeout( function Change() {
+        ChangeSlide(1);
+
+        if ($arl.onclick && $arl.onclick && $crops.onclick) {
+            setTimeout(Change(), 2000);
+        }
+    }, 2000);
 
 }
 
