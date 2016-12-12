@@ -57,7 +57,7 @@ h1 {
     margin: 0;
 }
 
-.b-slider__slide.slide-active {
+.b-slider__slide.b-slider__slide--active {
     visibility: visible;
 }
 
@@ -189,7 +189,7 @@ h1 {
     box-shadow: 0 1px #0D47A1 inset;
 }
 
-.b-slider__crop-item.crop-active {
+.b-slider__crop-item.b-slider__crop-item--active {
     opacity: 0.4;
     cursor: auto;
 }
