@@ -20,8 +20,8 @@ function RunSlider (id, params = {}) {
     const $slider = sliderParams.id;
 
     const $slides = $slider.getElementsByClassName(CURRENT_CLASS_SLIDE);
-    const $crop = $slider.getElementsByClassName(CURRENT_CLASS_CROP);
-    const $crops = $slider.getElementsByClassName('b-slider__crops');
+    const $crops = $slider.getElementsByClassName(CURRENT_CLASS_CROP);
+    const $cropwr = $slider.getElementsByClassName('b-slider__crops');
 
     const $count = $slides.length;
 
@@ -51,7 +51,7 @@ function RunSlider (id, params = {}) {
 
         _el.className = CURRENT_CLASS_CROP;
         _el.setAttribute('data-crop', i );
-        $crops[0].appendChild(_el);
+        $cropwr[0].appendChild(_el);
 
         if (!i) {
             _el.className = ADD_CLASS_CROP;
@@ -83,7 +83,7 @@ function RunSlider (id, params = {}) {
 
 
 
-    function SetActiveEl(e, pos, val = 0, currentClass) {
+    function SetActiveEl(elems, e, pos, val = 0, currentClass) {
         var _activeClass = e.className ;
 
         console.log(_activeClass);
@@ -111,10 +111,10 @@ function RunSlider (id, params = {}) {
         // console.log(val);
 
         // console.log(e);
-        // console.log($slides);
+        console.log(elems);
 
         e.className = currentClass;
-        $slides[nexPos].className = _activeClass;
+        elems[nexPos].className = _activeClass;
     }
 
 
@@ -126,11 +126,11 @@ function RunSlider (id, params = {}) {
         pos = pos ? pos : curAttr;
 
         // console.log(pos);
-        console.log(curSlide);
-        console.log(curSlide.getAttribute('data-slide'));
+        // console.log(curSlide);
+        // console.log(curSlide.getAttribute('data-slide'));
 
-        SetActiveEl(curSlide, pos, val, CURRENT_CLASS_SLIDE);
-        // SetActiveEl($crop, pos, val, CURRENT_CLASS_CROP);
+        SetActiveEl($slides, curSlide, pos, val, CURRENT_CLASS_SLIDE);
+        SetActiveEl($crops, curCrop, pos, val, CURRENT_CLASS_CROP);
     }
 
     ChangeSlide();
@@ -145,7 +145,7 @@ function RunSlider (id, params = {}) {
         ChangeSlide(1);
     };
 
-    $crops[0].onclick = function(e) {
+    $cropwr[0].onclick = function(e) {
         const curPos = e.target.getAttribute('data-crop');
 
         if (curPos && curPos != $slides[0].getAttribute(ACTIVE_CLASS_SLIDE)) { //HUCK
@@ -159,7 +159,7 @@ function RunSlider (id, params = {}) {
     // setTimeout( function Change() {
     //     ChangeSlide(1);
     //
-    //     if ($arl.onclick && $arl.onclick && $crops.onclick) {
+    //     if ($arl.onclick && $arl.onclick && $cropwr.onclick) {
     //         setTimeout(Change(), 2000);
     //     }
     // }, 2000);
