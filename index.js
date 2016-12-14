@@ -84,9 +84,7 @@ function RunSlider (id, params = {}) {
 
 
     function SetActiveEl(elems, e, pos, val = 0, currentClass) {
-        var _activeClass = e.className ;
-
-        console.log(_activeClass);
+        var _activeClass = e.className;
 
         pos = Number(pos);
         val = Number(val);
@@ -106,12 +104,6 @@ function RunSlider (id, params = {}) {
         };
 
         var nexPos = getNextPos();
-        //
-        // console.log(pos);
-        // console.log(val);
-
-        // console.log(e);
-        console.log(elems);
 
         e.className = currentClass;
         elems[nexPos].className = _activeClass;
@@ -125,15 +117,15 @@ function RunSlider (id, params = {}) {
 
         pos = pos ? pos : curAttr;
 
-        // console.log(pos);
-        // console.log(curSlide);
-        // console.log(curSlide.getAttribute('data-slide'));
-
         SetActiveEl($slides, curSlide, pos, val, CURRENT_CLASS_SLIDE);
         SetActiveEl($crops, curCrop, pos, val, CURRENT_CLASS_CROP);
     }
 
     ChangeSlide();
+
+
+
+
 
     //************ Response functions ***********//
 
