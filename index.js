@@ -19,11 +19,11 @@ function RunSlider (id, params = {}) {
 
     const $slider = sliderParams.id;
 
-    const $slide = $slider.getElementsByClassName(CURRENT_CLASS_SLIDE);
+    const $slides = $slider.getElementsByClassName(CURRENT_CLASS_SLIDE);
     const $crop = $slider.getElementsByClassName(CURRENT_CLASS_CROP);
     const $crops = $slider.getElementsByClassName('b-slider__crops');
 
-    const $count = $slide.length;
+    const $count = $slides.length;
 
     const $arl = $slider.getElementsByClassName('b-slider__arrow--left');
     const $arr = $slider.getElementsByClassName('b-slider__arrow--right');
@@ -61,7 +61,7 @@ function RunSlider (id, params = {}) {
 
 
     function InitSlides (i) {
-        $slide[i].setAttribute('data-slide', i );
+        $slides[i].setAttribute('data-slide', i );
     }
 
 
@@ -84,9 +84,9 @@ function RunSlider (id, params = {}) {
 
 
     function SetActiveEl(e, pos, val = 0, currentClass) {
-        var _addedClass = e[0].className ;
+        var _activeClass = e.className ;
 
-        // console.log(_addedClass);
+        console.log(_activeClass);
 
         pos = Number(pos);
         val = Number(val);
@@ -102,32 +102,34 @@ function RunSlider (id, params = {}) {
                 return ($count - 1);
             }
 
-            console.log('normal');
-
             return (pos + val);
         };
 
         var nexPos = getNextPos();
-
-        console.log(pos);
+        //
+        // console.log(pos);
         // console.log(val);
 
-        // console.log(nexPos);
+        // console.log(e);
+        // console.log($slides);
 
-        e[0].className = currentClass;
-        e[nexPos].className = _addedClass;
+        e.className = currentClass;
+        $slides[nexPos].className = _activeClass;
     }
 
 
     function ChangeSlide (val = 0, pos = 0) {
         var curSlide = $slider.getElementsByClassName(ACTIVE_CLASS_SLIDE)[0];
+        var curCrop = $slider.getElementsByClassName(ACTIVE_CLASS_CROP)[0];
+        var curAttr = curSlide.getAttribute('data-slide');
 
-        pos = pos ? pos : curSlide.getAttribute('data-slide');
+        pos = pos ? pos : curAttr;
 
-        console.log(pos);
+        // console.log(pos);
+        console.log(curSlide);
         console.log(curSlide.getAttribute('data-slide'));
 
-        SetActiveEl($slide, pos, val, CURRENT_CLASS_SLIDE);
+        SetActiveEl(curSlide, pos, val, CURRENT_CLASS_SLIDE);
         // SetActiveEl($crop, pos, val, CURRENT_CLASS_CROP);
     }
 
@@ -146,7 +148,7 @@ function RunSlider (id, params = {}) {
     $crops[0].onclick = function(e) {
         const curPos = e.target.getAttribute('data-crop');
 
-        if (curPos && curPos != $slide[0].getAttribute(ACTIVE_CLASS_SLIDE)) { //HUCK
+        if (curPos && curPos != $slides[0].getAttribute(ACTIVE_CLASS_SLIDE)) { //HUCK
             ChangeSlide(0, curPos);
 
             console.log(curPos);
