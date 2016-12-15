@@ -151,3 +151,8 @@ function RunSlider (id, params = {}) {
 }
 
 RunSlider(mainSlider);
+RunSlider(secondSlider, {
+    crops: 'hide',
+    arrows: 'hide',
+    timeInterval: 1000
+});
