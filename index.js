@@ -114,13 +114,22 @@ function RunSlider (id, params = {}) {
 
     //************ Response functions ***********//
 
+    var timerSlider = setTimeout(function Change() {
+        ChangeSlide(1);
+
+        timerSlider = setTimeout(Change, sliderParams.timeInterval);
+    }, sliderParams.timeInterval);
+
+
     if (sliderParams.controls) {
         $arl[0].onclick = () => {
             ChangeSlide(-1);
+            clearInterval(timerSlider);
         };
 
         $arr[0].onclick = () => {
             ChangeSlide(1);
+            clearInterval(timerSlider);
         };
     } else {
         $arl[0].className = CURRENT_CROP_LEFT;
@@ -134,15 +143,9 @@ function RunSlider (id, params = {}) {
         if (curPos && curPos != $slides[0].getAttribute(ACTIVE_CLASS_SLIDE)) { //HUCK
             ChangeSlide(0, curPos);
         }
+
+        clearInterval(timerSlider);
     };
-
-
-    var timerSlider = setTimeout(function Change() {
-        ChangeSlide(1);
-
-        timerSlider = setTimeout(Change, sliderParams.timeInterval);
-    }, sliderParams.timeInterval);
-
 }
 
 RunSlider(mainSlider);
