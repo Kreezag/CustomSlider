@@ -1,124 +1,164 @@
 
-function RunSlider (id) {
+function RunSlider (id, params = {}) {
 
-    const $slider = id;
+    const ACTIVE_CLASS_CROP = 'b-slider__crop-item--active';
+    const CURRENT_CLASS_CROP = 'b-slider__crop-item';
 
-    const $slide = $slider.querySelectorAll('.b-slider__slide');
-    const $count = $slide.length;
+    let ACTIVE_CLASS_SLIDE = 'b-slider__slide--active';
+    const CURRENT_CLASS_SLIDE = 'b-slider__slide';
+    const CURRENT_CROP_LEFT = 'b-slider__arrow--left';
+    const CURRENT_CROP_RIGHT = 'b-slider__arrow--right';
 
-    const $arl = $slider.querySelectorAll('[data-arrow-left]')[0];
-    const $arr = $slider.querySelectorAll('[data-arrow-right]')[0];
-    const $crops = $slider.querySelectorAll('[data-crop-list]')[0];
+    const sliderParams = {
+        id: id,
+        crops: Number(params.crops) === 0 ? 0 : 1,
+        controls: Number(params.controls) === 0 ? 0 : 1,
+        activeClass: params.activeClass ? params.activeClass : ACTIVE_CLASS_SLIDE,
+        timeInterval: Number(params.timeInterval) ? params.timeInterval : 3000
+    };
 
-    const DATA_ACTIVE = 'data-active';
+    const $slider = sliderParams.id;
 
+    const $slides = $slider.getElementsByClassName(CURRENT_CLASS_SLIDE);
+    const $crops = $slider.getElementsByClassName(CURRENT_CLASS_CROP);
+    const $cropwr = $slider.getElementsByClassName('b-slider__crops');
 
-    /*
-    TODO сделать ядро слайдера с API и возможностью кастомизировать
-    (регулировать скорость мотания, добовлять управляющие элементы, имена классов и тд)
-    ряд дефолтных значений
+    const $count = $slides.length;
 
-    idElem : id;
-    activeClass : class;
-    controls : [el1, el2, el3] || el;
-    timeChangeSlide : time;
-    visible preview : boolean;
-    */
+    const $arl = $slider.getElementsByClassName(CURRENT_CROP_LEFT);
+    const $arr = $slider.getElementsByClassName(CURRENT_CROP_RIGHT);
 
 
 
-    //************ Initialize slider ***********//
 
-    function Init$crops (i) {
+    //************ Initialize components ***********//
+
+    function InitCrops (i) {
         const _el = document.createElement('span');
 
-        _el.className = 'b-slider__crop-item';
+        _el.className = CURRENT_CLASS_CROP;
         _el.setAttribute('data-crop', i );
-        $crops.appendChild(_el);
+        $cropwr[0].appendChild(_el);
 
         if (!i) {
-            _el.setAttribute(DATA_ACTIVE, '');
+            _el.className = ACTIVE_CLASS_CROP + " " + CURRENT_CLASS_CROP;
         }
     }
 
 
 
     function InitSlides (i) {
-        $slide[i].setAttribute('data-slide', i );
+        $slides[i].setAttribute('data-slide', i );
     }
 
 
-    function SET_DATA_ATTR () {
+
+    function INIT_DATA_ATTR () {
         for (var _i = 0; _i < $count; _i++) {
-            Init$crops(_i);
+            sliderParams.crops ? InitCrops(_i) : '';
             InitSlides(_i);
         }
     }
 
 
-    SET_DATA_ATTR();
+
+    INIT_DATA_ATTR();
+
 
 
 
     //************ Action functions ***********//
 
-    function GetActiveEl (e) {
-        return e.querySelectorAll('[data-active]')[0];
+    function SetActiveEl(elems, e, pos, val = 0, currentClass) {
+        var _activeClass = e.className;
+
+        pos = Number(pos);
+        val = Number(val);
+
+        const getNextPos = () => {
+            if (val > 0 && pos === ($count - 1)) {
+                return 0;
+            }
+
+            if (val < 0 && pos == 0) {
+                return ($count - 1);
+            }
+
+            return (pos + val);
+        };
+
+        var nexPos = getNextPos();
+
+        e.className = currentClass;
+        elems[nexPos].className = _activeClass;
     }
 
-
-    function SetActiveAttr(e, pos, val = 0, activeClass = DATA_ACTIVE) {
-        var nextElem = e[(+pos) + val];
-
-        if (val > 0 && pos == ($count - 1)) {
-            nextElem = e[0];
-        }
-
-        if (val < 0 && pos == 0) {
-            nextElem = e[($count - 1)];
-        }
-
-        nextElem.setAttribute(activeClass, '');
-    }
 
 
     function ChangeSlide (val = 0, pos = 0) {
-        const curSlide = GetActiveEl($slider);
-        const curCrop = GetActiveEl($crops);
-        const crop = $crops.querySelectorAll('[data-crop]');
+        var curSlide = $slider.getElementsByClassName(ACTIVE_CLASS_SLIDE)[0];
+        var curCrop = $slider.getElementsByClassName(ACTIVE_CLASS_CROP)[0];
+        var curAttr = curSlide.getAttribute('data-slide');
 
-        pos = pos ? pos : curSlide.getAttribute('data-slide');
+        pos = pos ? pos : curAttr;
 
-        SetActiveAttr($slide, pos, val);
-        SetActiveAttr(crop, pos, val);
-
-        curSlide.removeAttribute(DATA_ACTIVE);
-        curCrop.removeAttribute(DATA_ACTIVE);
+        SetActiveEl($slides, curSlide, pos, val, CURRENT_CLASS_SLIDE);
+        sliderParams.crops ? SetActiveEl($crops, curCrop, pos, val, CURRENT_CLASS_CROP) : false;
     }
+
+
+
+    ChangeSlide();
+
 
 
 
     //************ Response functions ***********//
 
-    $arl.onclick = () => ChangeSlide(-1);
-    $arr.onclick = () => ChangeSlide(1);
-
-    $crops.onclick = function(e) {
-        const curPos = e.target.getAttribute('data-crop');
-
-        if (curPos && curPos != GetActiveEl($slider).getAttribute('data-slide')) { //HUCK
-            ChangeSlide(0, curPos);
-        }
-    };
-
-    setTimeout( function Change() {
+    var timerSlider = setTimeout(function Change() {
         ChangeSlide(1);
 
-        if ($arl.onclick && $arl.onclick && $crops.onclick) {
-            setTimeout(Change(), 2000);
-        }
-    }, 2000);
+        timerSlider = setTimeout(Change, sliderParams.timeInterval);
+    }, sliderParams.timeInterval);
 
+
+
+    if (sliderParams.controls) {
+        $arl[0].onclick = () => {
+            ChangeSlide(-1);
+            clearInterval(timerSlider);
+        };
+
+        $arr[0].onclick = () => {
+            ChangeSlide(1);
+            clearInterval(timerSlider);
+        };
+    } else {
+        $arl[0].className = CURRENT_CROP_LEFT;
+        $arr[0].className = CURRENT_CROP_RIGHT;
+    }
+
+
+
+    $cropwr[0].onclick = function(e) {
+        const curPos = e.target.getAttribute('data-crop');
+
+        if (curPos && curPos != $slides[0].getAttribute(ACTIVE_CLASS_SLIDE)) { //HUCK
+            ChangeSlide(0, curPos);
+        }
+
+        clearInterval(timerSlider);
+    };
 }
 
+
+
+//************ Call Sliders ************//
+
 RunSlider(mainSlider);
+
+RunSlider(secondSlider, {
+    crops: false,
+    controls: false,
+    timeInterval: 1000
+});
