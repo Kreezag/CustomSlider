@@ -3,11 +3,9 @@ function RunSlider (id, params = {}) {
 
     const ACTIVE_CLASS_CROP = 'b-slider__crop-item--active';
     const CURRENT_CLASS_CROP = 'b-slider__crop-item';
-    const ADD_CLASS_CROP = ACTIVE_CLASS_CROP + " " + CURRENT_CLASS_CROP;
 
     let ACTIVE_CLASS_SLIDE = 'b-slider__slide--active';
     const CURRENT_CLASS_SLIDE = 'b-slider__slide';
-    const ADD_CLASS_SLIDE = ACTIVE_CLASS_SLIDE + " " + ADD_CLASS_CROP;
 
     const sliderParams = {
         id: id,
@@ -54,7 +52,7 @@ function RunSlider (id, params = {}) {
         $cropwr[0].appendChild(_el);
 
         if (!i) {
-            _el.className = ADD_CLASS_CROP;
+            _el.className = ACTIVE_CLASS_CROP + " " + CURRENT_CLASS_CROP;
         }
     }
 
@@ -91,12 +89,10 @@ function RunSlider (id, params = {}) {
 
         const getNextPos = () => {
             if (val > 0 && pos === ($count - 1)) {
-                console.log('end');
                 return 0;
             }
 
             if (val < 0 && pos == 0) {
-                console.log('start');
                 return ($count - 1);
             }
 
@@ -142,19 +138,15 @@ function RunSlider (id, params = {}) {
 
         if (curPos && curPos != $slides[0].getAttribute(ACTIVE_CLASS_SLIDE)) { //HUCK
             ChangeSlide(0, curPos);
-
-            console.log(curPos);
         }
     };
 
-    //
-    // setTimeout( function Change() {
-    //     ChangeSlide(1);
-    //
-    //     if ($arl.onclick && $arl.onclick && $cropwr.onclick) {
-    //         setTimeout(Change(), 2000);
-    //     }
-    // }, 2000);
+
+    var timerId = setTimeout(function Change() {
+        ChangeSlide(1);
+
+        timerId = setTimeout(Change, 2000);
+    }, 2000);
 
 }
 
