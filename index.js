@@ -6,6 +6,8 @@ function RunSlider (id, params = {}) {
 
     let ACTIVE_CLASS_SLIDE = 'b-slider__slide--active';
     const CURRENT_CLASS_SLIDE = 'b-slider__slide';
+    const CURRENT_CROP_LEFT = 'b-slider__arrow--left';
+    const CURRENT_CROP_RIGHT = 'b-slider__arrow--right';
 
     const sliderParams = {
         id: id,
@@ -23,8 +25,8 @@ function RunSlider (id, params = {}) {
 
     const $count = $slides.length;
 
-    const $arl = $slider.getElementsByClassName('b-slider__arrow--left');
-    const $arr = $slider.getElementsByClassName('b-slider__arrow--right');
+    const $arl = $slider.getElementsByClassName(CURRENT_CROP_LEFT);
+    const $arr = $slider.getElementsByClassName(CURRENT_CROP_RIGHT);
 
 
 
@@ -66,7 +68,7 @@ function RunSlider (id, params = {}) {
 
     function INIT_DATA_ATTR () {
         for (var _i = 0; _i < $count; _i++) {
-            InitCrops(_i);
+            sliderParams.crops ? InitCrops(_i) : '';
             InitSlides(_i);
         }
     }
@@ -114,7 +116,7 @@ function RunSlider (id, params = {}) {
         pos = pos ? pos : curAttr;
 
         SetActiveEl($slides, curSlide, pos, val, CURRENT_CLASS_SLIDE);
-        SetActiveEl($crops, curCrop, pos, val, CURRENT_CLASS_CROP);
+        sliderParams.crops ? SetActiveEl($crops, curCrop, pos, val, CURRENT_CLASS_CROP) : false;
     }
 
     ChangeSlide();
@@ -125,13 +127,19 @@ function RunSlider (id, params = {}) {
 
     //************ Response functions ***********//
 
-    $arl[0].onclick = () => {
-        ChangeSlide(-1);
-    };
+    if (sliderParams.arrows) {
+        $arl[0].onclick = () => {
+            ChangeSlide(-1);
+        };
 
-    $arr[0].onclick = () => {
-        ChangeSlide(1);
-    };
+        $arr[0].onclick = () => {
+            ChangeSlide(1);
+        };
+    } else {
+        $arl[0].className = CURRENT_CROP_LEFT;
+        $arr[0].className = CURRENT_CROP_RIGHT;
+    }
+
 
     $cropwr[0].onclick = function(e) {
         const curPos = e.target.getAttribute('data-crop');
@@ -152,7 +160,7 @@ function RunSlider (id, params = {}) {
 
 RunSlider(mainSlider);
 RunSlider(secondSlider, {
-    crops: 'hide',
-    arrows: 'hide',
+    crops: false,
+    arrows: false,
     timeInterval: 1000
 });
