@@ -12,7 +12,7 @@ function RunSlider (id, params = {}) {
         crops: Number(params.crops) === 0 ? 0 : 1,
         arrows: Number(params.arrows) === 0 ? 0 : 1,
         activeClass: params.activeClass ? params.activeClass : ACTIVE_CLASS_SLIDE,
-        timeInterval: Number(params.timeInterval) ? params.timeInterval : 6000
+        timeInterval: Number(params.timeInterval) ? params.timeInterval : 3000
     };
 
     const $slider = sliderParams.id;
@@ -142,11 +142,11 @@ function RunSlider (id, params = {}) {
     };
 
 
-    var timerId = setTimeout(function Change() {
+    var timerSlider = setTimeout(function Change() {
         ChangeSlide(1);
 
-        timerId = setTimeout(Change, 2000);
-    }, 2000);
+        timerSlider = setTimeout(Change, sliderParams.timeInterval);
+    }, sliderParams.timeInterval);
 
 }
 
