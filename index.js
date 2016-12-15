@@ -12,7 +12,7 @@ function RunSlider (id, params = {}) {
     const sliderParams = {
         id: id,
         crops: Number(params.crops) === 0 ? 0 : 1,
-        arrows: Number(params.arrows) === 0 ? 0 : 1,
+        controls: Number(params.controls) === 0 ? 0 : 1,
         activeClass: params.activeClass ? params.activeClass : ACTIVE_CLASS_SLIDE,
         timeInterval: Number(params.timeInterval) ? params.timeInterval : 3000
     };
@@ -29,19 +29,6 @@ function RunSlider (id, params = {}) {
     const $arr = $slider.getElementsByClassName(CURRENT_CROP_RIGHT);
 
 
-
-    // /*
-    // TODO сделать ядро слайдера с API и возможностью кастомизировать
-    // (регулировать скорость мотания, добовлять управляющие элементы, имена классов и тд)
-    // ряд дефолтных значений
-    //
-    // idElem : id;
-    // activeClass : class;
-    // controls : [el1, el2, el3] || el;
-    // timeChangeSlide : time;
-    // visible preview : boolean;
-    // */
-    //
 
 
     //************ Initialize slider ***********//
@@ -127,7 +114,7 @@ function RunSlider (id, params = {}) {
 
     //************ Response functions ***********//
 
-    if (sliderParams.arrows) {
+    if (sliderParams.controls) {
         $arl[0].onclick = () => {
             ChangeSlide(-1);
         };
@@ -159,8 +146,9 @@ function RunSlider (id, params = {}) {
 }
 
 RunSlider(mainSlider);
+
 RunSlider(secondSlider, {
     crops: false,
-    arrows: false,
+    controls: false,
     timeInterval: 1000
 });
