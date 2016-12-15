@@ -31,7 +31,7 @@ function RunSlider (id, params = {}) {
 
 
 
-    //************ Initialize slider ***********//
+    //************ Initialize components ***********//
 
     function InitCrops (i) {
         const _el = document.createElement('span');
@@ -66,9 +66,8 @@ function RunSlider (id, params = {}) {
 
 
 
+
     //************ Action functions ***********//
-
-
 
     function SetActiveEl(elems, e, pos, val = 0, currentClass) {
         var _activeClass = e.className;
@@ -95,6 +94,7 @@ function RunSlider (id, params = {}) {
     }
 
 
+
     function ChangeSlide (val = 0, pos = 0) {
         var curSlide = $slider.getElementsByClassName(ACTIVE_CLASS_SLIDE)[0];
         var curCrop = $slider.getElementsByClassName(ACTIVE_CLASS_CROP)[0];
@@ -106,8 +106,9 @@ function RunSlider (id, params = {}) {
         sliderParams.crops ? SetActiveEl($crops, curCrop, pos, val, CURRENT_CLASS_CROP) : false;
     }
 
-    ChangeSlide();
 
+
+    ChangeSlide();
 
 
 
@@ -119,6 +120,7 @@ function RunSlider (id, params = {}) {
 
         timerSlider = setTimeout(Change, sliderParams.timeInterval);
     }, sliderParams.timeInterval);
+
 
 
     if (sliderParams.controls) {
@@ -137,6 +139,7 @@ function RunSlider (id, params = {}) {
     }
 
 
+
     $cropwr[0].onclick = function(e) {
         const curPos = e.target.getAttribute('data-crop');
 
@@ -147,6 +150,10 @@ function RunSlider (id, params = {}) {
         clearInterval(timerSlider);
     };
 }
+
+
+
+//************ Call Sliders ************//
 
 RunSlider(mainSlider);
 
